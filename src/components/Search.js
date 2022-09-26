@@ -24,14 +24,16 @@ export default function Search(props) {
           })
         )
         .catch((error) => console.log(error));
-
-      fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${coord[0]}&lon=${coord[1]}&cnt=5&appid=4920da1d765991ca446bd506bd9286d3&units=imperial`
-      )
-        .then((response) => response.json())
-        .then((data) => setForecast(data.list))
-        .catch((error) => console.log(error));
     }
+  }, [coord]);
+
+  useEffect(() => {
+    fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${coord[0]}&lon=${coord[1]}&cnt=5&appid=4920da1d765991ca446bd506bd9286d3&units=imperial`
+    )
+      .then((response) => response.json())
+      .then((data) => setForecast(data.list))
+      .catch((error) => console.log(error));
   }, [coord]);
 
   function handleFormSubmit(e) {
@@ -47,9 +49,16 @@ export default function Search(props) {
 
   return (
     <>
-      <form onSubmit={handleFormSubmit}>
-        <label forHTML="location">Enter location: </label>
+      <form
+        className="mb-16 flex justify-center items-center"
+        onSubmit={handleFormSubmit}
+      >
+        <label forHTML="location" className="mr-2">
+          Enter location:{" "}
+        </label>
         <input
+          className="mr-2"
+          placeholder="Entery city name"
           id="location"
           name="location"
           type="text"
@@ -58,7 +67,7 @@ export default function Search(props) {
           }}
           value={location}
         />
-        <button>go</button>
+        <button>Search</button>
       </form>
     </>
   );
