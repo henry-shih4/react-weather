@@ -34,7 +34,7 @@ export default function DisplayWeather(props) {
           {forecast
             ? forecast.map((time) => (
                 <>
-                  <div className="flex flex-col justify-center items-center">
+                  <div className="flex flex-col justify-center items-center rounded-lg shadow-lg h-[340px] w-[240px]">
                     <div>
                       <img
                         src={`http://openweathermap.org/img/wn/${time.weather[0].icon}.png`}

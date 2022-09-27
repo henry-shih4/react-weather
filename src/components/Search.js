@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
+import { GeocoderAutocomplete } from "@geoapify/geocoder-autocomplete";
 
 export default function Search(props) {
   const [location, setLocation] = useState("");
   const [coord, setCoord] = useState([]);
   const { info, onCityChange, forecast, setForecast } = props;
   const [submitted, setSubmitted] = useState(false);
+  const [suggestions, setSuggestions] = useState({});
+  const [focus, setFocus] = useState(false);
 
   useEffect(() => {
     if (submitted) {
@@ -36,8 +39,24 @@ export default function Search(props) {
       .catch((error) => console.log(error));
   }, [coord]);
 
+  useEffect(() => {
+    if (location) {
+      fetch(
+        `https://api.geoapify.com/v1/geocode/autocomplete?text=${location}&apiKey=82f3fe01d1294f6d9460337e0115e5d2`
+      )
+        .then((response) => response.json())
+        .then((data) => setSuggestions(data.features))
+        .catch((error) => console.log(error));
+    }
+  }, [location]);
+
+  function handleInputChange(e) {
+    setLocation(e.target.value);
+  }
+
   function handleFormSubmit(e) {
     e.preventDefault();
+
     fetch(
       `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=4920da1d765991ca446bd506bd9286d3`
     )
@@ -45,6 +64,9 @@ export default function Search(props) {
       .then((data) => setCoord([data[0].lat, data[0].lon, data[0].state]))
       .catch((error) => console.log(error));
     setSubmitted(true);
+  }
+  {
+    console.log(suggestions);
   }
 
   return (
@@ -56,17 +78,33 @@ export default function Search(props) {
         <label forHTML="location" className="mr-2">
           Enter location:{" "}
         </label>
-        <input
-          className="mr-2"
-          placeholder="Entery city name"
-          id="location"
-          name="location"
-          type="text"
-          onChange={(e) => {
-            setLocation(e.target.value);
-          }}
-          value={location}
-        />
+        <div>
+          <input
+            className={`mr-2 ${focus ? "bg-sky-200" : "bg-white"}`}
+            placeholder="Enter city name"
+            id="location"
+            name="location"
+            type="text"
+            autoComplete="off"
+            onChange={handleInputChange}
+            onFocus={() => setFocus(true)}
+            onBlur={() => setFocus(false)}
+            value={location}
+          />
+          <div className="">
+            {suggestions.length > 0 && focus
+              ? suggestions.map((suggestion) =>
+                  location == "" ? null : (
+                    <div className="hover:bg-sky-200 cursor-pointer">
+                      {suggestion.properties.city},{" "}
+                      {suggestion.properties.state},{" "}
+                      {suggestion.properties.country}
+                    </div>
+                  )
+                )
+              : null}
+          </div>
+        </div>
         <button>Search</button>
       </form>
     </>

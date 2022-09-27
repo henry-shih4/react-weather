@@ -12,7 +12,7 @@ function App() {
   }
 
   return (
-    <div className="App bg-red">
+    <div className="App">
       <Search
         info={info}
         forecast={forecast}
