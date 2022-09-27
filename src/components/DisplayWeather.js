@@ -2,8 +2,8 @@ import moment from "moment-timezone";
 
 export default function DisplayWeather(props) {
   const { info, forecast } = props;
-  console.log(forecast);
   const d = new Date();
+  console.log(info);
   return (
     <>
       <div className="flex flex-col w-screen justify-center items-center mb-14">

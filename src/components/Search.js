@@ -56,30 +56,20 @@ export default function Search(props) {
 
   function handleSelectClick(e) {
     let searchCoord = e.target.getAttribute("data-value").split(",");
-    setCoord([searchCoord[0], searchCoord[1]]);
-  }
-
-  function handleFormSubmit(e) {
-    e.preventDefault();
-
-    fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=4920da1d765991ca446bd506bd9286d3`
-    )
-      .then((response) => response.json())
-      .then((data) => setCoord([data[0].lat, data[0].lon, data[0].state]))
-      .catch((error) => console.log(error));
+    console.log(searchCoord);
+    setCoord([searchCoord[0], searchCoord[1], searchCoord[2]]);
     setSubmitted(true);
+    setFocus(false);
   }
 
   return (
     <>
-      <form
-        className="mb-16 flex justify-center items-center"
-        onSubmit={handleFormSubmit}
-      >
-        <label forHTML="location" className="mr-2">
-          Enter location:{" "}
-        </label>
+      <form className="mb-16 flex justify-center h-max">
+        <div className="h-full pr-2">
+          <label forHTML="location" className="flex">
+            Enter location:{" "}
+          </label>
+        </div>
         <div>
           <input
             className={`mr-2 ${focus ? "bg-sky-200" : "bg-white"}`}
@@ -90,7 +80,6 @@ export default function Search(props) {
             autoComplete="off"
             onChange={handleInputChange}
             onFocus={() => setFocus(true)}
-            // onBlur={() => setFocus(false)}
             value={location}
           />
           <div className="">
@@ -98,11 +87,13 @@ export default function Search(props) {
               ? suggestions.map((suggestion) =>
                   location == "" ? null : (
                     <div
+                      key={suggestion.properties.lat}
                       className="hover:bg-sky-200 cursor-pointer"
                       onClick={handleSelectClick}
                       data-value={[
                         suggestion.properties.lat,
                         suggestion.properties.lon,
+                        suggestion.properties.state,
                       ]}
                     >
                       {suggestion.properties.city},{" "}
@@ -114,7 +105,6 @@ export default function Search(props) {
               : null}
           </div>
         </div>
-        <button>Search</button>
       </form>
     </>
   );
