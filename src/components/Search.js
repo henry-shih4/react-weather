@@ -54,6 +54,11 @@ export default function Search(props) {
     setLocation(e.target.value);
   }
 
+  function handleSelectClick(e) {
+    let searchCoord = e.target.getAttribute("data-value").split(",");
+    setCoord([searchCoord[0], searchCoord[1]]);
+  }
+
   function handleFormSubmit(e) {
     e.preventDefault();
 
@@ -64,9 +69,6 @@ export default function Search(props) {
       .then((data) => setCoord([data[0].lat, data[0].lon, data[0].state]))
       .catch((error) => console.log(error));
     setSubmitted(true);
-  }
-  {
-    console.log(suggestions);
   }
 
   return (
@@ -88,14 +90,21 @@ export default function Search(props) {
             autoComplete="off"
             onChange={handleInputChange}
             onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)}
+            // onBlur={() => setFocus(false)}
             value={location}
           />
           <div className="">
             {suggestions.length > 0 && focus
               ? suggestions.map((suggestion) =>
                   location == "" ? null : (
-                    <div className="hover:bg-sky-200 cursor-pointer">
+                    <div
+                      className="hover:bg-sky-200 cursor-pointer"
+                      onClick={handleSelectClick}
+                      data-value={[
+                        suggestion.properties.lat,
+                        suggestion.properties.lon,
+                      ]}
+                    >
                       {suggestion.properties.city},{" "}
                       {suggestion.properties.state},{" "}
                       {suggestion.properties.country}
