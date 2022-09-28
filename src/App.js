@@ -20,7 +20,11 @@ function App() {
         onCityChange={handleCityChange}
       />
       {Object.keys(info).length > 0 ? (
-        <DisplayWeather info={info} forecast={forecast} />
+        <DisplayWeather
+          className="h-screen w-screen"
+          info={info}
+          forecast={forecast}
+        />
       ) : null}
     </div>
   );
