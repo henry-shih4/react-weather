@@ -68,10 +68,13 @@ export default function Search(props) {
 
   return (
     <>
-      <form className="mb-16 flex w-screen justify-center">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="mb-16 flex w-screen justify-center"
+      >
         <div className="flex justify-center w-full">
           <div className="pr-2">
-            <label forHTML="location" className="flex">
+            <label forHTML="location" className="flex h-full">
               Search location:{" "}
             </label>
           </div>
@@ -93,7 +96,7 @@ export default function Search(props) {
             <div className="">
               {suggestions.length > 0 && focus
                 ? suggestions.map((suggestion) =>
-                    location == "" ? null : (
+                    location == " " ? null : (
                       <div
                         key={suggestion.properties.lat}
                         className="hover:bg-sky-200 cursor-pointer"

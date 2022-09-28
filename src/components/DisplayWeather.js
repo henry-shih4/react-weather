@@ -3,22 +3,20 @@ import moment from "moment-timezone";
 export default function DisplayWeather(props) {
   const { info, forecast } = props;
   const d = new Date();
-  console.log(info);
+  var tz = moment.tz.guess();
+
   return (
     <>
       <div className="w-screen flex justify-center">
-        <div className="flex flex-col justify-center items-center mb-10 rounded-lg shadow-lg h-[340px] w-[300px] border-solid border-red-200 border-2">
+        <div className="bg-[#CCE3DE] flex flex-col justify-center items-center mb-10 rounded-lg shadow-lg h-[340px] w-[300px] border-solid border-red-200 border-2">
           <div>
             {" "}
-            <div>
-              {` ${moment(Date.now())
-                .tz("America/New_York")
-                .format("MM-DD-YY")}`}
+            <div className="text-center">
+              {` ${moment(Date.now()).tz("America/New_York").format("M-DD")}`}
             </div>
-            <div>
-              {` ${moment(Date.now()).tz("America/New_York").format("HH:mm")}`}{" "}
-              EST
-            </div>
+            <div className="text-center">{` ${moment(Date.now())
+              .tz(tz)
+              .format("h:m A")}`}</div>
           </div>
           <div className="text-lg font-bold">
             {info.name}, {info.state}, {info.country}{" "}
@@ -40,30 +38,28 @@ export default function DisplayWeather(props) {
           {forecast
             ? forecast.map((time) => (
                 <>
-                  <div className="flex flex-col justify-center items-center rounded-lg shadow-lg h-[260px] w-[240px] mb-4 border-solid border-red-200 border-2">
-                    <div>
-                      {moment
-                        .unix(time.dt)
-                        .tz("America/New_York")
-                        .format("MM-DD-YY")}
+                  <div>
+                    <div className="text-center font-bold">
+                      {moment.unix(time.dt).tz(tz).format("h A")}
                     </div>
-                    <div>
-                      {moment
-                        .unix(time.dt)
-                        .tz("America/New_York")
-                        .format("HH:mm")}{" "}
-                      EST
+                    <div className=" bg-[#CCE3DE] flex flex-col justify-center items-center rounded-lg shadow-lg h-[260px] w-[240px] mb-4 border-solid border-red-200 border-2">
+                      <div>
+                        {moment
+                          .unix(time.dt)
+                          .tz("America/New_York")
+                          .format("M-DD")}
+                      </div>
+                      <div>
+                        <img
+                          src={`http://openweathermap.org/img/wn/${time.weather[0].icon}@2x.png`}
+                        />
+                      </div>
+                      <div className="font-bold">{time.main.temp} °F</div>
+                      <div className="text-md">{time.weather[0].main}</div>
+                      <div className="text-sm">
+                        {time.weather[0].description}
+                      </div>{" "}
                     </div>
-                    <div>
-                      <img
-                        src={`http://openweathermap.org/img/wn/${time.weather[0].icon}.png`}
-                      />
-                    </div>
-                    <div className="font-bold">{time.main.temp} °F</div>
-                    <div className="text-md">{time.weather[0].main}</div>
-                    <div className="text-sm">
-                      {time.weather[0].description}
-                    </div>{" "}
                   </div>
                 </>
               ))
