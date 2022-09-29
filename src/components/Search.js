@@ -72,11 +72,11 @@ export default function Search(props) {
         onSubmit={(e) => e.preventDefault()}
         className="mb-16 flex w-screen justify-center"
       >
-        <div className="flex justify-center w-full">
+        <div className="flex justify-center w-[500px]">
           <div className="pr-2">
             <label
               forHTML="location"
-              className={`flex h-full justify-center w-full`}
+              className={`flex h-full justify-center w-auto`}
             >
               Search location:{" "}
             </label>

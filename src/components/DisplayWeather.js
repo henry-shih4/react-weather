@@ -8,7 +8,7 @@ export default function DisplayWeather(props) {
   return (
     <>
       <div className="w-screen flex justify-center items-center">
-        <div className="bg-[#C6E0FB] flex flex-col justify-center items-center mb-10 rounded-lg shadow-lg h-[340px] w-[300px] border-solid border-[#352D39] border-2">
+        <div className=" flex flex-col justify-center items-center mb-10 rounded-lg shadow-lg h-[340px] w-[300px] border-solid border-[#352D39] border-2">
           <div>
             {" "}
             <div className="text-center">
@@ -18,14 +18,25 @@ export default function DisplayWeather(props) {
               .tz(tz)
               .format("h:m A")}`}</div>
           </div>
-          <div className="text-lg font-bold">
+          <div className="text-lg font-bold text-center">
             {info.name}, {info.state}, {info.country}{" "}
           </div>
           <div>
             <img src={info.icon} />
           </div>
 
-          <div className="text-lg font-bold"> {Math.round(info.temp)} °F </div>
+          <div
+            className={`text-lg font-bold ${
+              info.temp > 90
+                ? `text-red-500`
+                : info.temp < 50
+                ? `text-blue-300`
+                : null
+            }`}
+          >
+            {" "}
+            {Math.round(info.temp)} °F{" "}
+          </div>
           <div className="text-md">{info.weather}</div>
           <div className="text-sm">{info.description}</div>
         </div>
@@ -50,7 +61,7 @@ export default function DisplayWeather(props) {
                     <div className="text-center font-bold">
                       {moment.unix(time.dt).tz(tz).format("h A")}
                     </div>
-                    <div className=" bg-[#C6E0FB] flex flex-col justify-center items-center rounded-lg shadow-lg h-[260px] w-[240px] mb-4 border-solid border-[#352D39]  border-2">
+                    <div className=" flex flex-col justify-center items-center rounded-lg shadow-lg h-[260px] w-[240px] mb-4 border-solid border-[#352D39]  border-2">
                       <div>
                         {moment
                           .unix(time.dt)
@@ -62,7 +73,15 @@ export default function DisplayWeather(props) {
                           src={`http://openweathermap.org/img/wn/${time.weather[0].icon}@2x.png`}
                         />
                       </div>
-                      <div className="font-bold">
+                      <div
+                        className={`font-bold ${
+                          time.main.temp > 90
+                            ? `text-red-500`
+                            : time.main.temp < 50
+                            ? `text-blue-300`
+                            : null
+                        }`}
+                      >
                         {Math.round(time.main.temp)} °F
                       </div>
                       <div className="text-md">{time.weather[0].main}</div>

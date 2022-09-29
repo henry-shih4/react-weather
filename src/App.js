@@ -2,6 +2,7 @@ import DisplayWeather from "./components/DisplayWeather";
 import Search from "./components/Search";
 import { useState } from "react";
 import Header from "./components/Header";
+import TemplateDisplay from "./components/TemplateDisplay";
 import "./App.css";
 
 function App() {
@@ -27,7 +28,9 @@ function App() {
           info={info}
           forecast={forecast}
         />
-      ) : null}
+      ) : (
+        <TemplateDisplay />
+      )}
     </div>
   );
 }
