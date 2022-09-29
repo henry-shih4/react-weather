@@ -1,6 +1,7 @@
 import DisplayWeather from "./components/DisplayWeather";
 import Search from "./components/Search";
 import { useState } from "react";
+import Header from "./components/Header";
 import "./App.css";
 
 function App() {
@@ -12,7 +13,8 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App font-open">
+      <Header />
       <Search
         info={info}
         forecast={forecast}

@@ -65,7 +65,7 @@ export default function Search(props) {
     setSubmitted(true);
     setFocus(false);
   }
-
+  console.log(suggestions);
   return (
     <>
       <form
@@ -74,16 +74,17 @@ export default function Search(props) {
       >
         <div className="flex justify-center w-full">
           <div className="pr-2">
-            <label forHTML="location" className="flex h-full">
+            <label
+              forHTML="location"
+              className={`flex h-full justify-center w-full`}
+            >
               Search location:{" "}
             </label>
           </div>
           <div className="">
             <input
-              style={{ outline: "none" }}
-              className={`p-[2px] mr-2 w-[200px] rounded-lg ${
-                focus ? "border-solid border-red-200 border-2" : null
-              }`}
+              style={{ outlineColor: "#C6E0FB" }}
+              className=" pl-[4px] rounded-lg w-full text-center"
               placeholder="Enter city name"
               id="location"
               name="location"
@@ -96,9 +97,9 @@ export default function Search(props) {
             <div className="">
               {suggestions.length > 0 && focus
                 ? suggestions.map((suggestion) =>
-                    location == " " ? null : (
+                    location === "" ? null : (
                       <div
-                        key={suggestion.properties.lat}
+                        key={suggestion.properties.placeId}
                         className="hover:bg-sky-200 cursor-pointer"
                         onClick={handleSelectClick}
                         data-value={[
