@@ -28,6 +28,7 @@ export default function Search(props) {
         )
         .catch((error) => console.log(error));
     }
+    // eslint-disable-next-line
   }, [coord]);
 
   // fetch future forecast from API
@@ -38,6 +39,7 @@ export default function Search(props) {
       .then((response) => response.json())
       .then((data) => setForecast(data.list))
       .catch((error) => console.log(error));
+    // eslint-disable-next-line
   }, [coord]);
 
   // autocomplete on input
