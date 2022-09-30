@@ -28,7 +28,7 @@ export default function Search(props) {
         )
         .catch((error) => console.log(error));
     }
-  }, [coord, onCityChange, submitted]);
+  }, [coord]);
 
   // fetch future forecast from API
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function Search(props) {
       .then((response) => response.json())
       .then((data) => setForecast(data.list))
       .catch((error) => console.log(error));
-  }, [coord, setForecast]);
+  }, [coord]);
 
   // autocomplete on input
   useEffect(() => {

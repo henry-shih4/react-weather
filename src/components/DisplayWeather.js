@@ -6,7 +6,7 @@ export default function DisplayWeather(props) {
 
   return (
     <>
-      <div className='h-55'>
+      <div className="h-55">
         <div className="w-screen flex justify-center items-center">
           <div className=" flex flex-col justify-center items-center mb-10 rounded-lg shadow-lg h-[340px] w-[300px] border-solid border-[#352D39] border-2">
             <div>
