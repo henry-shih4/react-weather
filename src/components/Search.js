@@ -71,7 +71,7 @@ export default function Search(props) {
     <>
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="mb-16 flex w-screen justify-center h-25 z-10"
+        className="mb-10 flex w-screen justify-center h-25 z-10"
       >
         <div className="flex justify-center w-[500px]">
           <div className="pr-2">

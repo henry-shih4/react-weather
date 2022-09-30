@@ -5,3 +5,7 @@
 .font-open{
     font-family: 'Open Sans', sans-serif;
 }
+
+html{
+    height:100%;
+}
