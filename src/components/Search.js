@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { GeocoderAutocomplete } from "@geoapify/geocoder-autocomplete";
 
 export default function Search(props) {
   const [location, setLocation] = useState("");
   const [coord, setCoord] = useState([]);
-  const { info, onCityChange, forecast, setForecast } = props;
+  const { onCityChange, setForecast } = props;
   const [submitted, setSubmitted] = useState(false);
   const [suggestions, setSuggestions] = useState({});
   const [focus, setFocus] = useState(false);
@@ -29,7 +28,7 @@ export default function Search(props) {
         )
         .catch((error) => console.log(error));
     }
-  }, [coord]);
+  }, [coord, onCityChange, submitted]);
 
   // fetch future forecast from API
   useEffect(() => {
@@ -39,7 +38,7 @@ export default function Search(props) {
       .then((response) => response.json())
       .then((data) => setForecast(data.list))
       .catch((error) => console.log(error));
-  }, [coord]);
+  }, [coord, setForecast]);
 
   // autocomplete on input
   useEffect(() => {
@@ -70,7 +69,7 @@ export default function Search(props) {
     <>
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="mb-16 flex w-screen justify-center"
+        className="mb-16 flex w-screen justify-center h-25 z-10"
       >
         <div className="flex justify-center w-[500px]">
           <div className="pr-2">
@@ -94,7 +93,7 @@ export default function Search(props) {
               onFocus={() => setFocus(true)}
               value={location}
             />
-            <div className="">
+            <div className="z-10">
               {suggestions.length > 0 && focus
                 ? suggestions.map((suggestion) =>
                     location === "" ? null : (
