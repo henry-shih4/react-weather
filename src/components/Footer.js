@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <>
-      <div className="flex justify-between h-[50px] pr-2 pl-2 text-xs text-center items-end">
+      <div className="flex justify-between pr-2 pl-2 text-[8px] text-center items-end">
         <div className="flex">
           Github:{" "}
           <a

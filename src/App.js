@@ -15,7 +15,7 @@ function App() {
   }
 
   return (
-    <div className="App font-open">
+    <div className="App font-open flex flex-col h-screen">
       <Header />
       <Search
         info={info}
