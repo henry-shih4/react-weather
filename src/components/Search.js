@@ -66,7 +66,7 @@ export default function Search(props) {
     setSubmitted(true);
     setFocus(false);
   }
-  console.log(suggestions);
+
   return (
     <>
       <form

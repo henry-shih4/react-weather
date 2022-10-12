@@ -1,0 +1,10 @@
+.item-enter {
+opacity: 0;
+    transform: translateX(-500%);
+}
+
+.item-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 1000ms, transform 1000ms ease-out;
+}

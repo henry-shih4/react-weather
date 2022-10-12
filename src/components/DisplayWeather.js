@@ -1,8 +1,19 @@
 import moment from "moment-timezone";
+import { useState, useEffect } from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import "../styles.css";
 
 export default function DisplayWeather(props) {
   const { info, forecast } = props;
   var tz = moment.tz.guess();
+  const [inAnim, setInAnim] = useState(true);
+
+  useEffect(() => {
+    setInAnim(true);
+    setTimeout(() => {
+      setInAnim(false);
+    }, 1000);
+  }, [forecast]);
 
   return (
     <>
@@ -41,53 +52,64 @@ export default function DisplayWeather(props) {
             <div className="text-sm">{info.description}</div>
           </div>
         </div>
-        <div>
-          <div className="text-center text-2xl mt-4 m-auto w-screen">
-            Forecast
-          </div>
-          <div className="mt-4 flex w-screen flex-wrap justify-evenly items-center h-max">
-            {forecast
-              ? forecast.map((time) => (
-                  <>
-                    <div>
-                      <div className="text-center font-bold">
-                        {moment.unix(time.dt).tz(tz).format("h A")}
-                      </div>
-                      <div className=" flex flex-col justify-center items-center rounded-lg shadow-lg h-[260px] w-[240px] mb-4 border-solid border-[#352D39]  border-2">
+        <TransitionGroup component="div">
+          <div>
+            <div className="text-center text-2xl mt-4 m-auto w-screen">
+              Forecast
+            </div>
+            <div className="mt-4 flex w-screen flex-wrap justify-evenly items-center h-max">
+              {forecast
+                ? forecast.map((time) => (
+                    <>
+                      <CSSTransition
+                        in={inAnim}
+                        key={time}
+                        timeout={3000}
+                        classNames="item"
+                      >
                         <div>
-                          {moment
-                            .unix(time.dt)
-                            .tz("America/New_York")
-                            .format("M-DD")}
+                          <div className="text-center font-bold">
+                            {moment.unix(time.dt).tz(tz).format("h A")}
+                          </div>
+                          <div className=" flex flex-col justify-center items-center rounded-lg shadow-lg h-[260px] w-[240px] mb-4 border-solid border-[#352D39]  border-2">
+                            <div>
+                              {moment
+                                .unix(time.dt)
+                                .tz("America/New_York")
+                                .format("M-DD")}
+                            </div>
+                            <div>
+                              <img
+                                alt={`${time.weather[0].main} icon`}
+                                src={`http://openweathermap.org/img/wn/${time.weather[0].icon}@2x.png`}
+                              />
+                            </div>
+                            <div
+                              className={`font-bold ${
+                                time.main.temp > 90
+                                  ? `text-red-500`
+                                  : time.main.temp < 50
+                                  ? `text-blue-300`
+                                  : null
+                              }`}
+                            >
+                              {Math.round(time.main.temp)} °F
+                            </div>
+                            <div className="text-md">
+                              {time.weather[0].main}
+                            </div>
+                            <div className="text-sm">
+                              {time.weather[0].description}
+                            </div>{" "}
+                          </div>
                         </div>
-                        <div>
-                          <img
-                            alt={`${time.weather[0].main} icon`}
-                            src={`http://openweathermap.org/img/wn/${time.weather[0].icon}@2x.png`}
-                          />
-                        </div>
-                        <div
-                          className={`font-bold ${
-                            time.main.temp > 90
-                              ? `text-red-500`
-                              : time.main.temp < 50
-                              ? `text-blue-300`
-                              : null
-                          }`}
-                        >
-                          {Math.round(time.main.temp)} °F
-                        </div>
-                        <div className="text-md">{time.weather[0].main}</div>
-                        <div className="text-sm">
-                          {time.weather[0].description}
-                        </div>{" "}
-                      </div>
-                    </div>
-                  </>
-                ))
-              : null}
+                      </CSSTransition>
+                    </>
+                  ))
+                : null}
+            </div>
           </div>
-        </div>
+        </TransitionGroup>
       </div>
     </>
   );
